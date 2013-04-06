@@ -2,7 +2,7 @@
 HipChat API wrapper
 
 Pythonic wrapper for the HipChat API. Closely follows the
-official API semantics, see https://www.hipchat.com/docs/api
+official API naming and semantics, see https://www.hipchat.com/docs/api
 for details.
 
 Quickstart:
