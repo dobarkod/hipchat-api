@@ -1,0 +1,4 @@
+*.pyc
+/build/
+/dist/
+/hipchat_api.egg-info/
