@@ -1,6 +1,34 @@
 import requests
 
 
+class HipchatError(Exception):
+    """HipChat API error
+
+    See https://www.hipchat.com/docs/api/response_codes for possible
+    errors.
+
+    """
+
+class AuthorizationError(HipchatError):
+    """Raised when auth_token is invalid or not adequate for the operation."""
+
+
+class NotFoundError(HipchatError):
+    """Specified room or user not found."""
+
+
+class RateLimitExceeded(HipchatError):
+    """The rate limit has been exceeded."""
+
+
+class ServiceUnavailable(HipchatError):
+    """The service is temporarily unavailably."""
+
+
+class BadRequest(HipchatError):
+    """Error in data provided in the request."""
+
+
 class Api(object):
     BASE_URL = 'https://api.hipchat.com/v1/'
     FROM_NAME = 'API'
@@ -15,6 +43,27 @@ class Api(object):
     def __repr__(self):
         return '<Api auth_token="%s">' % str(self.auth_token)
 
+    @staticmethod
+    def _unwrap_response(resp):
+        code = resp.status_code
+        json = resp.json()
+        errmsg = json.get('error', {}).get('message', 'Unknown error')
+
+        if code == 200:
+            return json
+        elif code == 400:
+            raise BadRequest(errmsg)
+        elif code == 401:
+            raise AuthorizationError(errmsg)
+        elif code == 404:
+            raise NotFoundError(errmsg)
+        elif code == 403:
+            raise RateLimitExceeded(errmsg)
+        elif code == 503:
+            raise ServiceUnavailable(errmsg)
+        else:
+            raise HipchatError('%d: %s' % (code, errmsg))
+
     def _get(self, method, **kwargs):
         url = self.base_url + method
         kwargs.update({
@@ -22,7 +71,7 @@ class Api(object):
             'auth_token': self.auth_token
         })
         resp = requests.get(url, params=kwargs)
-        return resp.json()
+        return self._unwrap_response(resp)
 
     def _post(self, method, **kwargs):
         url = self.base_url + method
@@ -34,7 +83,7 @@ class Api(object):
             'from': self.from_name
         })
         resp = requests.post(url, params=params, data=kwargs)
-        return resp.json()
+        return self._unwrap_response(resp)
 
     @property
     def rooms(self):
