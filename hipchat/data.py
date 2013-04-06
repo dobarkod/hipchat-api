@@ -30,7 +30,7 @@ class Room(HipchatObject):
         'owner_user_id', 'is_private', 'guest_access_url')
 
     def __repr__(self):
-        return '<Room id="%s" name="%s">' % (str(self.room_id), str(self))
+        return '<Room id=%s name="%s">' % (str(self.room_id), str(self))
 
     @classmethod
     def _parse(cls, data):
@@ -105,7 +105,7 @@ class User(HipchatObject):
         'photo_url', 'status', 'status_message')
 
     def __repr__(self):
-        return '<User id="%s" name="%s">' % (str(self.user_id), str(self))
+        return '<User id=%s name="%s">' % (str(self.user_id), str(self))
 
     @classmethod
     def _parse(cls, data):
