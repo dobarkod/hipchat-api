@@ -13,6 +13,10 @@ class HipchatObject(object):
             setattr(obj, attr, data.get(attr))
         return obj
 
+    @staticmethod
+    def _parse_ts(data):
+        return datetime.datetime.fromtimestamp(data) if data else None
+
     def __str__(self):
         return unicode(self).encode('utf-8')
 
@@ -32,8 +36,8 @@ class Room(HipchatObject):
     def _parse(cls, data):
         obj = super(Room, cls)._parse(data)
         obj._topic = data['topic']
-        obj.last_active = datetime.datetime.fromtimestamp(data['last_active'])
-        obj.created = datetime.datetime.fromtimestamp(data['created'])
+        obj.last_active = cls._parse_ts(data.get('last_active'))
+        obj.created = cls._parse_ts(data.get('created'))
         if 'participants' in data:
             obj.participants = [cls.api.users._parse(p)
                 for p in data['participants']]
@@ -106,10 +110,10 @@ class User(HipchatObject):
     @classmethod
     def _parse(cls, data):
         obj = super(User, cls)._parse(data)
-        obj.is_group_admin = bool(int(data['is_group_admin']))
-        obj.is_deleted = bool(int(data['is_deleted']))
-        obj.last_active = datetime.datetime.fromtimestamp(data['last_active'])
-        obj.created = datetime.datetime.fromtimestamp(data['created'])
+        obj.is_group_admin = bool(int(data.get('is_group_admin', 0)))
+        obj.is_deleted = bool(int(data.get('is_deleted', 0)))
+        obj.last_active = cls._parse_ts(data.get('last_active'))
+        obj.created = cls._parse_ts(data.get('created'))
         return obj
 
     @classmethod
