@@ -103,13 +103,13 @@ class Room(HipchatObject):
             'from': frm
         })
 
-    def history(self, date='recent', tz='UTC'):
+    def history(self, date='recent', timezone='UTC'):
         """Get room history.
 
         Retrieves messages from a given date (if date is a `datetime.date`
         object) or last 75 messages (if date is string "recent"). The
-        optional `tz` argument specifies which timezone to use to determine
-        when the day starts and ends.
+        optional `timezone` argument specifies which timezone to use to
+        determine when the day starts and ends.
 
         Returns a list of `Message` objects representing the messages.
 
@@ -119,7 +119,7 @@ class Room(HipchatObject):
             if date > date.today():
                 raise ValueError('')
         data = self.api._get('rooms/history', room_id=self.room_id,
-            date=date, timezone=tz)
+            date=date, timezone=timezone)
         return [Message._parse(m, self.api.users) for m in data['messages']]
 
     @classmethod
