@@ -115,13 +115,13 @@ class Api(object):
     @property
     def rooms(self):
         if self._room_class is None:
-            from .data import Room
+            from .rooms import Room
             self._room_class = type('Room', (Room,), dict(api=self))
         return self._room_class
 
     @property
     def users(self):
         if self._user_class is None:
-            from .data import User
+            from .users import User
             self._user_class = type('User', (User,), dict(api=self))
         return self._user_class
