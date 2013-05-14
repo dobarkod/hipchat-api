@@ -19,4 +19,4 @@ See also:
 
 """
 
-from .api import Api
+from .api import Api  # noqa
