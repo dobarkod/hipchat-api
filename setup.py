@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='hipchat-api',
-    version='0.0.1',
+    version='0.0.2',
     author='Senko Rasic',
     author_email='senko.rasic@goodcode.io',
     description='A Pythonic wrapper for the HipChat API',
