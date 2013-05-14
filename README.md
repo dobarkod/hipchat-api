@@ -6,7 +6,8 @@ but making requests manually still requires you to get your hands dirty.
 Use this wrapper to avoid manual work and use a nice, simple and Pythonic
 API to interface with HipChat. The wrapper closely follows the naming and
 semantic of the official API so you can use the official documentation in
-addition to the documentation provided here and in the package itself.
+addition to the documentation provided here and in the package docstrings
+itself.
 
 ## Installation and requirements
 
@@ -42,7 +43,7 @@ Now, you can use the available methods:
 
 This wrapper is work in progress, and there are still some things missing:
 
-* User creation, modification and deletion wrappers
+* API wrapper reference documentation
 * Tests
 
 Pull requests welcome! :-)
