@@ -107,8 +107,8 @@ class Api(object):
             'auth_token': self.auth_token
         }
         kwargs.update({
-            'from': self.from_name
-        })
+            'from': kwargs.get('from') if not None else self.from_name
+       })
         resp = requests.post(url, params=params, data=kwargs)
         return self._unwrap_response(resp)
 
