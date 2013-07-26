@@ -106,9 +106,8 @@ class Api(object):
             'format': 'json',
             'auth_token': self.auth_token
         }
-        kwargs.update({
-            'from': self.from_name
-        })
+        if 'from' not in kwargs:
+            kwargs['from'] = self.from_name
         resp = requests.post(url, params=params, data=kwargs)
         return self._unwrap_response(resp)
 

@@ -63,7 +63,7 @@ class User(HipchatObject):
 
     @staticmethod
     def _maybe_dict(**kwargs):
-        return {k: v for k, v in kwargs.iteritems() if v is not None}
+        return dict((k,v) for k,v in kwargs.iteritems() if v is not None)
 
     @classmethod
     def create(cls, email, name, mention_name=None, title=None,
